@@ -1,7 +1,12 @@
 import "./App.css";
+import Data from "./data_retrieval/Data";
 
 function App() {
-  return <div className="App">Naive Bayes App</div>;
+  return (
+    <>
+      <Data />
+    </>
+  );
 }
 
 export default App;
