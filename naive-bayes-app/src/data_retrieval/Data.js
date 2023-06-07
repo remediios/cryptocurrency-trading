@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, Pagination } from "antd";
+import { Table, Pagination, Space, Spin } from "antd";
 
 function Data() {
   const [bitcoinData, setBitcoinData] = useState([]);
@@ -59,7 +59,7 @@ function Data() {
       key: "date",
     },
     {
-      title: "Price (USD)",
+      title: "Price (GBP)",
       dataIndex: "price",
       key: "price",
     },
@@ -69,7 +69,15 @@ function Data() {
     <div>
       <h1>Bitcoin Historical Data</h1>
       {isLoading ? (
-        <p>Loading Bitcoin data...</p>
+        <Space
+          size="middle"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Spin size="large" />
+        </Space>
       ) : bitcoinData.length > 0 ? (
         <>
           <Table
@@ -77,12 +85,21 @@ function Data() {
             dataSource={currentRows}
             pagination={false}
           />
-          <Pagination
-            current={currentPage}
-            total={bitcoinData.length}
-            pageSize={rowsPerPage}
-            onChange={handlePageChange}
-          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "16px",
+            }}
+          >
+            <Pagination
+              defaultCurrent={1}
+              current={currentPage}
+              total={bitcoinData.length}
+              pageSize={rowsPerPage}
+              onChange={handlePageChange}
+            />
+          </div>
         </>
       ) : (
         <p>No Bitcoin data available.</p>
