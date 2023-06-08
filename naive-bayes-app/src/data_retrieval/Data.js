@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Pagination, Space, Spin } from "antd";
+import { Typography } from "antd";
 
 function Data() {
   const [bitcoinData, setBitcoinData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
+  const { Title } = Typography;
 
   useEffect(() => {
     async function getBitcoinHistoricalData() {
@@ -15,17 +17,22 @@ function Data() {
           "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart",
           {
             params: {
-              vs_currency: "gbp",
-              days: "90", // Retrieve data for the last 90 days
+              vs_currency: "usd",
+              days: "365", // Retrieve data for the last 90 days
             },
           }
         );
 
-        const { prices } = response.data;
-        // Extract the timestamps and prices from the nested array
-        const formattedData = prices.map(([timestamp, price]) => ({
+        const { prices, market_caps, total_volumes } = response.data;
+        // Extract the timestamps, prices, market caps, and total volumes from the nested arrays
+        const formattedData = prices.map(([timestamp, price], index) => ({
+          id: index + 1,
           date: new Date(timestamp).toLocaleString(),
+          open: index === 0 ? price : prices[index - 1][1],
+          close: index === prices.length - 1 ? price : prices[index + 1][1],
           price,
+          marketCap: market_caps[index][1],
+          totalVolume: total_volumes[index][1],
         }));
 
         // Store the formatted data in the state array
@@ -54,20 +61,45 @@ function Data() {
   // Define the columns for the table
   const columns = [
     {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
       title: "Date",
       dataIndex: "date",
       key: "date",
+    },
+    {
+      title: "Open Price (GBP)",
+      dataIndex: "open",
+      key: "open",
+    },
+    {
+      title: "Close Price (GBP)",
+      dataIndex: "close",
+      key: "close",
     },
     {
       title: "Price (GBP)",
       dataIndex: "price",
       key: "price",
     },
+    {
+      title: "Market Cap (GBP)",
+      dataIndex: "marketCap",
+      key: "marketCap",
+    },
+    {
+      title: "Total Volume",
+      dataIndex: "totalVolume",
+      key: "totalVolume",
+    },
   ];
 
   return (
     <div>
-      <h1>Bitcoin Historical Data</h1>
+      <Title>Bitcoin Historical Data</Title>
       {isLoading ? (
         <Space
           size="middle"
