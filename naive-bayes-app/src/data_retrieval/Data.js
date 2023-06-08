@@ -22,7 +22,8 @@ function Data() {
           {
             params: {
               vs_currency: "gbp",
-              days: "max", // Retrieve data for the last 90 days
+              days: "max",
+              interval: "daily",
             },
           }
         );
@@ -32,7 +33,7 @@ function Data() {
           {
             params: {
               vs_currency: "gbp",
-              days: "max", // Retrieve data for the last 90 days
+              days: "max",
             },
           }
         );
@@ -107,7 +108,11 @@ function Data() {
         <>
           <div style={{ padding: "20px" }}>
             <div
-              style={{ padding: "20px", display: "flex", alignItems: "center" }}
+              style={{
+                paddingBottom: "20px",
+                display: "flex",
+                alignItems: "center",
+              }}
             >
               <Image
                 src={currencyImg}
