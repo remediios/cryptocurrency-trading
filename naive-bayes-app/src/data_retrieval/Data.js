@@ -84,9 +84,9 @@ function Data({ currency }) {
           };
         });
 
+        setCurrencyName(name);
         setCurrencyData(formattedData);
         setLabelData(formattedData);
-        setCurrencyName(name);
         setCurrencyImg(image.small);
         setCurrencySymbol(symbol.toUpperCase());
         setIsLoading(false);
@@ -204,7 +204,9 @@ function Data({ currency }) {
           </div>
         </>
       ) : (
-        <p>No Bitcoin data available.</p>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Title level={3}>{`${currencyName} data is not available!`}</Title>
+        </div>
       )}
     </div>
   );
