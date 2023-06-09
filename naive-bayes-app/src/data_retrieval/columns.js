@@ -36,4 +36,9 @@ export const columns = [
     dataIndex: "change7d",
     key: "change7d",
   },
+  {
+    title: "Class",
+    dataIndex: "label",
+    key: "label",
+  },
 ];

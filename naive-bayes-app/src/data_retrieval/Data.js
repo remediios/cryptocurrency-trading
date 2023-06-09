@@ -12,8 +12,9 @@ function Data({ currency }) {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { Title } = Typography;
+  const [labelData, setLabelData] = useState([]);
 
+  const { Title } = Typography;
   const { currencyName, setCurrencyName } = useContext(ContextAPI);
 
   useEffect(() => {
@@ -52,6 +53,22 @@ function Data({ currency }) {
               ? ((price - prices[index - 7][1]) / prices[index - 7][1]) * 100
               : 0;
 
+          // Calculate price difference with the previous data point
+          const previousPriceLabel = index > 0 ? prices[index - 1][1] : null;
+          const priceDifferenceLabel = previousPriceLabel
+            ? price - previousPriceLabel
+            : 0;
+
+          // Label the data point based on the price difference
+          let label;
+          if (priceDifferenceLabel > 0.005) {
+            label = "increase";
+          } else if (priceDifferenceLabel < -0.005) {
+            label = "decrease";
+          } else {
+            label = "stay the same";
+          }
+
           return {
             id: index + 1,
             date: currentDate,
@@ -60,10 +77,12 @@ function Data({ currency }) {
             totalVolume: total_volumes[index][1],
             change24h: priceChange.toFixed(2),
             change7d: percentageChange7d.toFixed(2),
+            label,
           };
         });
 
         setCurrencyData(formattedData);
+        setLabelData(formattedData);
         setCurrencyName(name);
         setCurrencyImg(image.small);
         setCurrencySymbol(symbol.toUpperCase());
