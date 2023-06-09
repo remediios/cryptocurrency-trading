@@ -40,5 +40,11 @@ export const columns = [
     title: "Class",
     dataIndex: "label",
     key: "label",
+    filters: [
+      { text: "Increase", value: "increase" },
+      { text: "Decrease", value: "decrease" },
+      { text: "Stay the Same", value: "stay the same" },
+    ],
+    onFilter: (value, record) => record.label === value,
   },
 ];

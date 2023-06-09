@@ -121,13 +121,14 @@ function Data({ currency }) {
           style={{
             display: "flex",
             justifyContent: "center",
+            marginTop: "30px",
           }}
         >
           <Spin size="large" />
         </Space>
       ) : currencyData.length > 0 ? (
         <>
-          <div style={{ padding: "20px" }}>
+          <div style={{ padding: "20px", marginBottom: "10px" }}>
             <div
               style={{
                 paddingBottom: "20px",
