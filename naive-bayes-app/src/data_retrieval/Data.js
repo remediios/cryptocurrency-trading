@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Table, Pagination, Space, Spin, Image } from "antd";
 import { Typography } from "antd";
 import { columns } from "./columns";
+import { ContextAPI } from "../context/ContextAPI";
 
-function Data() {
+function Data({ currency }) {
   const [currencyData, setCurrencyData] = useState([]);
-  const [currencyName, setCurrencyName] = useState([]);
   const [currencyImg, setCurrencyImg] = useState([]);
   const [currencySymbol, setCurrencySymbol] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,22 +14,24 @@ function Data() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { Title } = Typography;
 
+  const { currencyName, setCurrencyName } = useContext(ContextAPI);
+
   useEffect(() => {
     async function getBitcoinHistoricalData() {
       try {
         const response = await axios.get(
-          "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart",
+          `https://api.coingecko.com/api/v3/coins/${currency}/market_chart`,
           {
             params: {
               vs_currency: "gbp",
-              days: "max",
+              days: "3000",
               interval: "daily",
             },
           }
         );
 
         const response2 = await axios.get(
-          "https://api.coingecko.com/api/v3/coins/bitcoin/",
+          `https://api.coingecko.com/api/v3/coins/${currency}/`,
           {
             params: {
               vs_currency: "gbp",
@@ -74,7 +76,7 @@ function Data() {
 
     getBitcoinHistoricalData();
     // eslint-disable-next-line
-  }, []);
+  }, [currencyName]);
 
   // Calculate the index of the last row to display based on the current page and rows per page
   const lastIndex = currentPage * rowsPerPage;
@@ -128,6 +130,7 @@ function Data() {
               columns={columns}
               dataSource={currentRows}
               pagination={false}
+              bordered
             />
             <div
               style={{
