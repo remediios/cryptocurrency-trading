@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Table, Pagination, Space, Spin, Image } from "antd";
+import { Table, Pagination, Space, Spin, Image, Button } from "antd";
 import { Typography } from "antd";
 import { columns } from "./columns";
 import { ContextAPI } from "../context/ContextAPI";
+import { CSVLink } from "react-csv";
 
 function Data({ currency }) {
   const [currencyData, setCurrencyData] = useState([]);
@@ -12,6 +13,7 @@ function Data({ currency }) {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  // eslint-disable-next-line
   const [labelData, setLabelData] = useState([]);
 
   const { Title } = Typography;
@@ -40,6 +42,7 @@ function Data({ currency }) {
             },
           }
         );
+
         const { prices, market_caps, total_volumes } = response.data;
         const { name, symbol, image } = response2.data;
 
@@ -113,6 +116,15 @@ function Data({ currency }) {
     setRowsPerPage(pageSize);
   };
 
+  const csvHeaders = columns.map((column) => ({
+    label: column.title,
+    key: column.key,
+  }));
+
+  const csvData = currencyData.map((data) => ({
+    ...data,
+  }));
+
   return (
     <div>
       {isLoading ? (
@@ -145,7 +157,28 @@ function Data({ currency }) {
               <Title style={{ marginLeft: "10px" }}>
                 {currencyName} Historical Data ({currencySymbol})
               </Title>
+              <Button
+                type="primary"
+                style={{
+                  marginTop: "10px",
+                  marginLeft: "10px",
+                  height: "25px",
+                  width: "70px",
+                  fontSize: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <CSVLink
+                  data={csvData}
+                  headers={csvHeaders}
+                  filename={`${currency}_data.csv`}
+                >
+                  Export CSV
+                </CSVLink>
+              </Button>
             </div>
+
             <Table
               columns={columns}
               dataSource={currentRows}
