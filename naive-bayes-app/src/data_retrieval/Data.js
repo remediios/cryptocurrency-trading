@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Table, Pagination, Space, Spin, Image, Button } from "antd";
+import { Table } from "antd";
 import { Typography } from "antd";
 import { columns } from "./columns";
 import { ContextAPI } from "../context/ContextAPI";
-import { CSVLink } from "react-csv";
+import Loading from "../components/Loading";
+import PaginationTable from "../components/table/PaginationTable";
+import TableHeader from "../components/table/TableHeader";
 
 function Data({ currency }) {
   const [currencyData, setCurrencyData] = useState([]);
@@ -128,79 +130,30 @@ function Data({ currency }) {
   return (
     <div>
       {isLoading ? (
-        <Space
-          size="middle"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "30px",
-          }}
-        >
-          <Spin size="large" />
-        </Space>
+        <Loading />
       ) : currencyData.length > 0 ? (
         <>
           <div style={{ padding: "20px", marginBottom: "10px" }}>
-            <div
-              style={{
-                paddingBottom: "20px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                src={currencyImg}
-                width={40}
-                height={40}
-                alt={currencyName}
-              />
-              <Title style={{ marginLeft: "10px" }}>
-                {currencyName} Historical Data ({currencySymbol})
-              </Title>
-              <Button
-                type="primary"
-                style={{
-                  marginTop: "10px",
-                  marginLeft: "10px",
-                  height: "25px",
-                  width: "70px",
-                  fontSize: "10px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <CSVLink
-                  data={csvData}
-                  headers={csvHeaders}
-                  filename={`${currency}_data.csv`}
-                >
-                  Export CSV
-                </CSVLink>
-              </Button>
-            </div>
-
+            <TableHeader
+              currencyImg={currencyImg}
+              currencyName={currencyName}
+              currencySymbol={currencySymbol}
+              csvData={csvData}
+              csvHeaders={csvHeaders}
+              currency={currency}
+            />
             <Table
               columns={columns}
               dataSource={currentRows}
               pagination={false}
               bordered
             />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "16px",
-              }}
-            >
-              <Pagination
-                defaultCurrent={1}
-                current={currentPage}
-                total={currencyData.length}
-                //pageSize={rowsPerPage}
-                onShowSizeChange={onShowSizeChange}
-                onChange={handlePageChange}
-              />
-            </div>
+            <PaginationTable
+              currentPage={currentPage}
+              onShowSizeChange={onShowSizeChange}
+              handlePageChange={handlePageChange}
+              currencyData={currencyData}
+            />
           </div>
         </>
       ) : (
