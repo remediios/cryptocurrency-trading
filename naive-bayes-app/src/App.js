@@ -1,8 +1,7 @@
-import "./App.css";
 import Data from "./data_retrieval/Data";
 import Home from "./components/Home";
 import { Routes, Route } from "react-router-dom";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "./components/navigation/NavigationBar";
 import { ContextProvider } from "./context/ContextAPI";
 
 function App() {
