@@ -17,6 +17,8 @@ function Data({ currency }) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   // eslint-disable-next-line
   const [labelData, setLabelData] = useState([]);
+  // eslint-disable-next-line
+  const [saveDB, setSaveDB] = useState(false);
 
   const { Title } = Typography;
   const { currencyName, setCurrencyName } = useContext(ContextAPI);
@@ -29,7 +31,7 @@ function Data({ currency }) {
           {
             params: {
               vs_currency: "gbp",
-              days: "3000",
+              days: "max",
               interval: "daily",
             },
           }
@@ -93,18 +95,20 @@ function Data({ currency }) {
         setCurrencySymbol(symbol.toUpperCase());
         setIsLoading(false);
 
-        // Store the data in the database
-        try {
-          const response3 = await axios.post(
-            "http://localhost:4000/api/data/store-data",
-            {
-              currency: name,
-              data: formattedData,
-            }
-          );
-          console.log(response3.data);
-        } catch (error) {
-          console.error("Error storing data in the database:", error.message);
+        if (saveDB) {
+          // Store the data in the database
+          try {
+            const response3 = await axios.post(
+              "http://localhost:4000/api/data/store-data",
+              {
+                currency: name,
+                data: formattedData,
+              }
+            );
+            console.log(response3.data);
+          } catch (error) {
+            console.error("Error storing data in the database:", error.message);
+          }
         }
       } catch (error) {
         console.error("Error fetching Bitcoin historical data:", error.message);
