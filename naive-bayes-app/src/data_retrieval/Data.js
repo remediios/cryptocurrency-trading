@@ -92,6 +92,20 @@ function Data({ currency }) {
         setCurrencyImg(image.small);
         setCurrencySymbol(symbol.toUpperCase());
         setIsLoading(false);
+
+        // Store the data in the database
+        try {
+          const response3 = await axios.post(
+            "http://localhost:4000/api/data/store-data",
+            {
+              currency: name,
+              data: formattedData,
+            }
+          );
+          console.log(response3.data);
+        } catch (error) {
+          console.error("Error storing data in the database:", error.message);
+        }
       } catch (error) {
         console.error("Error fetching Bitcoin historical data:", error.message);
         setIsLoading(false);
