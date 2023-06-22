@@ -9,7 +9,6 @@ import PaginationTable from "../components/table/PaginationTable";
 import TableHeader from "../components/table/TableHeader";
 
 function Data({ currency }) {
-  const [currencyData, setCurrencyData] = useState([]);
   const [currencyImg, setCurrencyImg] = useState([]);
   const [currencySymbol, setCurrencySymbol] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,9 +16,12 @@ function Data({ currency }) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   // eslint-disable-next-line
   const [labelData, setLabelData] = useState([]);
+  // eslint-disable-next-line
+  const [saveDB, setSaveDB] = useState(false);
 
   const { Title } = Typography;
-  const { currencyName, setCurrencyName } = useContext(ContextAPI);
+  const { currencyName, setCurrencyName, currencyData, setCurrencyData } =
+    useContext(ContextAPI);
 
   useEffect(() => {
     async function getBitcoinHistoricalData() {
@@ -29,7 +31,7 @@ function Data({ currency }) {
           {
             params: {
               vs_currency: "gbp",
-              days: "3000",
+              days: "max",
               interval: "daily",
             },
           }
@@ -49,7 +51,11 @@ function Data({ currency }) {
         const { name, symbol, image } = response2.data;
 
         const formattedData = prices.map(([timestamp, price], index) => {
-          const currentDate = new Date(timestamp).toLocaleString();
+          //const currentDate = new Date(timestamp).toLocaleString();
+          const currentDate2 = new Date(parseInt(timestamp))
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
           const previousPrice = index > 0 ? prices[index - 1][1] : "-";
           const priceChange =
             index > 0 ? ((price - previousPrice) / previousPrice) * 100 : 0;
@@ -76,7 +82,7 @@ function Data({ currency }) {
 
           return {
             id: index + 1,
-            date: currentDate,
+            date: currentDate2,
             price,
             marketCap: market_caps[index][1],
             totalVolume: total_volumes[index][1],
@@ -92,6 +98,22 @@ function Data({ currency }) {
         setCurrencyImg(image.small);
         setCurrencySymbol(symbol.toUpperCase());
         setIsLoading(false);
+
+        if (saveDB) {
+          // Store the data in the database
+          try {
+            const response3 = await axios.post(
+              "http://localhost:4000/api/data/store-data",
+              {
+                currency: name,
+                data: formattedData,
+              }
+            );
+            console.log(response3.data);
+          } catch (error) {
+            console.error("Error storing data in the database:", error.message);
+          }
+        }
       } catch (error) {
         console.error("Error fetching Bitcoin historical data:", error.message);
         setIsLoading(false);
@@ -100,7 +122,7 @@ function Data({ currency }) {
 
     getBitcoinHistoricalData();
     // eslint-disable-next-line
-  }, [currencyName]);
+  }, [currency]);
 
   // Calculate the index of the last row to display based on the current page and rows per page
   const lastIndex = currentPage * rowsPerPage;
@@ -136,7 +158,6 @@ function Data({ currency }) {
           <div style={{ padding: "20px", marginBottom: "10px" }}>
             <TableHeader
               currencyImg={currencyImg}
-              currencyName={currencyName}
               currencySymbol={currencySymbol}
               csvData={csvData}
               csvHeaders={csvHeaders}

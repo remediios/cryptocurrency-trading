@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Image, Button } from "antd";
 import { CSVLink } from "react-csv";
 import { Typography } from "antd";
+import { ContextAPI } from "../../context/ContextAPI";
 
 function TableHeader({
   currencyImg,
-  currencyName,
   currencySymbol,
   csvData,
   csvHeaders,
   currency,
 }) {
   const { Title } = Typography;
+
+  const { currencyName } = useContext(ContextAPI);
 
   return (
     <>
