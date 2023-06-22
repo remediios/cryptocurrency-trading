@@ -51,7 +51,11 @@ function Data({ currency }) {
         const { name, symbol, image } = response2.data;
 
         const formattedData = prices.map(([timestamp, price], index) => {
-          const currentDate = new Date(timestamp).toLocaleString();
+          //const currentDate = new Date(timestamp).toLocaleString();
+          const currentDate2 = new Date(parseInt(timestamp))
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
           const previousPrice = index > 0 ? prices[index - 1][1] : "-";
           const priceChange =
             index > 0 ? ((price - previousPrice) / previousPrice) * 100 : 0;
@@ -78,7 +82,7 @@ function Data({ currency }) {
 
           return {
             id: index + 1,
-            date: currentDate,
+            date: currentDate2,
             price,
             marketCap: market_caps[index][1],
             totalVolume: total_volumes[index][1],
