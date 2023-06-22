@@ -18,7 +18,7 @@ function NavigationBar() {
         <NavLink
           to="/bitcoin"
           activeClassName="active"
-          onClick={setCurrencyName("bitcoin")}
+          onClick={() => setCurrencyName("bitcoin")}
         >
           Bitcoin
         </NavLink>
@@ -27,9 +27,14 @@ function NavigationBar() {
         <NavLink
           to="/ethereum"
           activeClassName="active"
-          onClick={setCurrencyName("ethereum")}
+          onClick={() => setCurrencyName("ethereum")}
         >
           Ethereum
+        </NavLink>
+      </Menu.Item>
+      <Menu.Item key="/charts">
+        <NavLink to="/charts" activeClassName="active">
+          Charts
         </NavLink>
       </Menu.Item>
     </Menu>

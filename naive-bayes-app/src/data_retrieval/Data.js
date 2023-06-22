@@ -9,7 +9,6 @@ import PaginationTable from "../components/table/PaginationTable";
 import TableHeader from "../components/table/TableHeader";
 
 function Data({ currency }) {
-  const [currencyData, setCurrencyData] = useState([]);
   const [currencyImg, setCurrencyImg] = useState([]);
   const [currencySymbol, setCurrencySymbol] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +20,8 @@ function Data({ currency }) {
   const [saveDB, setSaveDB] = useState(false);
 
   const { Title } = Typography;
-  const { currencyName, setCurrencyName } = useContext(ContextAPI);
+  const { currencyName, setCurrencyName, currencyData, setCurrencyData } =
+    useContext(ContextAPI);
 
   useEffect(() => {
     async function getBitcoinHistoricalData() {
@@ -122,7 +122,7 @@ function Data({ currency }) {
 
     getBitcoinHistoricalData();
     // eslint-disable-next-line
-  }, [currencyName]);
+  }, [currency]);
 
   // Calculate the index of the last row to display based on the current page and rows per page
   const lastIndex = currentPage * rowsPerPage;
@@ -158,7 +158,6 @@ function Data({ currency }) {
           <div style={{ padding: "20px", marginBottom: "10px" }}>
             <TableHeader
               currencyImg={currencyImg}
-              currencyName={currencyName}
               currencySymbol={currencySymbol}
               csvData={csvData}
               csvHeaders={csvHeaders}
