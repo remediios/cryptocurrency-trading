@@ -7,10 +7,11 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 import joblib
 
-btc_data = pd.read_csv("btc.csv")
+eth_data = pd.read_csv("eth.csv")
 
+# Assuming you have a target label column named 'target' in your DataFrame
 label_encoder = LabelEncoder()
-btc_data['Class'] = label_encoder.fit_transform(btc_data['Class'])
+eth_data['Class'] = label_encoder.fit_transform(eth_data['Class'])
 
 # Get the mapping between the encoded labels and the original classes
 label_mapping = dict(zip(range(len(label_encoder.classes_)), label_encoder.classes_))
@@ -19,11 +20,11 @@ label_mapping = dict(zip(range(len(label_encoder.classes_)), label_encoder.class
 for encoded_label, original_class in label_mapping.items():
     print(f"Encoded Label: {encoded_label} --> Original Class: {original_class}")
 
-selected_columns= btc_data.iloc[:, [2, 3, 4, 5, 6, 7]]
+selected_columns = eth_data.iloc[:, [2, 3, 4, 5, 6, 7]]
 
 # Split the data into features (X) and target label (y)
-X= selected_columns.iloc[:, :-1]
-y= selected_columns.iloc[:, -1]
+X = selected_columns.iloc[:, :-1]
+y = selected_columns.iloc[:, -1]
 
 # Normalize the data
 scaler = MinMaxScaler()
@@ -45,6 +46,6 @@ y_pred = nb_classifier.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
-# joblib.dump(nb_classifier, "btc_model.joblib")
+# joblib.dump(nb_classifier, "eth_model.joblib")
 # Save the scaler
-# joblib.dump(scaler, "btc_scaler.joblib")
+# joblib.dump(scaler, "eth_scaler.joblib")

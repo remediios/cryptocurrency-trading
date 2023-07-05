@@ -6,8 +6,13 @@ import json
 
 app = Flask(__name__)
 
+# BITCOIN LOADING
 btc_model = joblib.load("btc_model.joblib")
-scaler = joblib.load("btc_scaler.joblib")
+btc_scaler = joblib.load("btc_scaler.joblib")
+
+# ETHEREUM LOADING
+eth_model = joblib.load("eth_model.joblib")
+eth_scaler = joblib.load("eth_scaler.joblib")
 
 # Create a Flask blueprint with the base URL prefix
 api_bp = Blueprint('api', __name__, url_prefix='/api')
@@ -37,27 +42,29 @@ def predict():
     df = pd.DataFrame(data2)
     print(df)
 
-    model_data_normalized = scaler.transform(df)
-    print(model_data_normalized)
-
     prediction_scaled = None
 
     if currency == "bitcoin":
+        model_data_normalized = btc_scaler.transform(df)
+        print(model_data_normalized)
         prediction = btc_model.predict(model_data_normalized)
         prediction_scaled = prediction.item(0)
     elif currency == "ethereum":
-        return "Ethereum"
+        model_data_normalized = eth_scaler.transform(df)
+        print(model_data_normalized)
+        prediction = eth_model.predict(model_data_normalized)
+        prediction_scaled = prediction.item(0)
     else:
         return "Coin not permitted!"
 
     value = {
+        "currency": currency,
         "response": prediction_scaled
     }
 
     return json.dumps(value)
 
 
-# Register the blueprint with the Flask app
 app.register_blueprint(api_bp)
 
 if __name__ == '__main__':
