@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Spin } from "antd";
+import { Select, Button } from "antd";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
@@ -15,24 +15,32 @@ import {
 import datasuplier from "../img/datasuplier.png";
 import { buttonOptions } from "../config/chart/buttons";
 import ChartButton from "./chart/ChartButton";
+import { selectOptions } from "../config/chart/selectOptions";
+import Loading from "./Loading";
 
 function Home() {
   ChartJS.register(...registerables);
   const [chartData, setChartData] = useState(null);
-  //eslint-disable-next-line
   const [days, setDays] = useState(365);
+  const { currencyID, setCurrencyID } = useContext(ContextAPI);
+  const [chartContent, setChartContent] = useState("price");
   //eslint-disable-next-line
-  const { currencyName, setCurrencyName } = useContext(ContextAPI);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setCurrencyName("bitcoin");
     fetchData();
     //eslint-disable-next-line
-  }, [days, currencyName]);
+  }, [days, currencyID, chartContent]);
+
+  useEffect(() => {
+    setCurrencyID("bitcoin");
+    //eslint-disable-next-line
+  }, []);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(CryptoChart(currencyName, days));
+      setLoading(true);
+      const response = await axios.get(CryptoChart(currencyID, days));
       const data = response.data.prices;
       const chartLabels = data.map((coin) => {
         let date = new Date(coin[0]);
@@ -44,34 +52,72 @@ function Home() {
       });
       const chartPrices = data.map((item) => item[1]);
 
-      setChartData({
-        labels: chartLabels,
-        datasets: [
-          {
-            label: `Price (Past ${days} Days) in GBP £`,
-            data: chartPrices,
-            borderColor: "rgb(21, 117, 252, 1)",
-            backgroundColor: "rgb(21, 117, 252, 0.2)",
-            fill: true,
-          },
-        ],
-      });
+      const marketCapData = response.data.market_caps;
+      const marketCapChartData = marketCapData.map((item) => item[1]);
+
+      const totalVolumeData = response.data.total_volumes;
+      const totalVolumeChartData = totalVolumeData.map((item) => item[1]);
+
+      if (chartContent === "price") {
+        setChartData({
+          labels: chartLabels,
+          datasets: [
+            {
+              label: `Price (Past ${days} Days) in GBP £`,
+              data: chartPrices,
+              borderColor: "rgb(21, 117, 252, 1)",
+              backgroundColor: "rgb(21, 117, 252, 0.2)",
+              fill: true,
+            },
+          ],
+        });
+      } else if (chartContent === "marketcap") {
+        setChartData({
+          labels: chartLabels,
+          datasets: [
+            {
+              label: `Market Capitalisation (Past ${days} Days) in GBP £`,
+              data: marketCapChartData,
+              borderColor: "rgb(255, 99, 132, 1)",
+              backgroundColor: "rgb(255, 99, 132, 0.2)",
+              fill: true,
+            },
+          ],
+        });
+      } else if (chartContent === "totalvolume") {
+        setChartData({
+          labels: chartLabels,
+          datasets: [
+            {
+              label: `Total Volume (Past ${days} Days)`,
+              data: totalVolumeChartData,
+              borderColor: "rgb(250, 209, 4, 1)",
+              backgroundColor: "rgb(250, 209, 4, 0.2)",
+              fill: true,
+            },
+          ],
+        });
+      }
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false);
     }
+  };
+
+  const handleChange = (value) => {
+    setChartContent(value);
   };
 
   return (
     <>
       <ChartCointainer>
         {!chartData ? (
-          <>
-            <Spin size="large" />
-          </>
+          <Loading margin={0} />
         ) : (
           <>
             <ChartTitleWrapper>
-              <CrytoTitle> {currencyName.toUpperCase()}</CrytoTitle>
+              <CrytoTitle> {currencyID.toUpperCase()}</CrytoTitle>
               <a
                 href="https://www.coingecko.com/en"
                 target="_blank"
@@ -79,6 +125,25 @@ function Home() {
               >
                 <DataSupplier src={datasuplier} href="www.google.com" />
               </a>
+              <Select
+                defaultValue="price"
+                style={{
+                  width: 130,
+                }}
+                onChange={handleChange}
+                options={selectOptions}
+              />
+              <Button
+                type="dashed"
+                style={{ marginLeft: 15, width: 100 }}
+                onClick={() =>
+                  currencyID === "bitcoin"
+                    ? setCurrencyID("ethereum")
+                    : setCurrencyID("bitcoin")
+                }
+              >
+                {currencyID === "bitcoin" ? "ETHEREUM" : "BITCOIN"}
+              </Button>
             </ChartTitleWrapper>
             <Line
               data={chartData}
@@ -90,7 +155,7 @@ function Home() {
                 },
               }}
             />
-            <ButtonWrapper style={{}}>
+            <ButtonWrapper>
               {buttonOptions.map((day) => (
                 <ChartButton
                   key={day.value}

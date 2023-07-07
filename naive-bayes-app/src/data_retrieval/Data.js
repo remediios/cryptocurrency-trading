@@ -20,8 +20,13 @@ function Data({ currency }) {
   const [saveDB, setSaveDB] = useState(false);
 
   const { Title } = Typography;
-  const { currencyName, setCurrencyName, currencyData, setCurrencyData } =
-    useContext(ContextAPI);
+  const {
+    currencyName,
+    setCurrencyName,
+    setCurrencyID,
+    currencyData,
+    setCurrencyData,
+  } = useContext(ContextAPI);
 
   useEffect(() => {
     async function getBitcoinHistoricalData() {
@@ -93,6 +98,7 @@ function Data({ currency }) {
         });
 
         setCurrencyName(name);
+        setCurrencyID(name.toLowerCase());
         setCurrencyData(formattedData);
         setLabelData(formattedData);
         setCurrencyImg(image.small);
@@ -152,7 +158,7 @@ function Data({ currency }) {
   return (
     <div>
       {isLoading ? (
-        <Loading />
+        <Loading margin={30} />
       ) : currencyData.length > 0 ? (
         <>
           <div style={{ padding: "20px", marginBottom: "10px" }}>

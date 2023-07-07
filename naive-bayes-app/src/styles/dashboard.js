@@ -22,7 +22,6 @@ export const CrytoTitle = styled.h3`
   text-align: center;
   width: 30%;
   &:hover {
-    cursor: pointer;
     font-weight: 500;
   }
 `;

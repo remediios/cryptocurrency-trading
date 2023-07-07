@@ -1,7 +1,7 @@
 import React from "react";
 import { Space, Spin } from "antd";
 
-function Loading() {
+function Loading({ margin }) {
   return (
     <>
       <Space
@@ -9,7 +9,7 @@ function Loading() {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "30px",
+          marginTop: `${margin}px`,
         }}
       >
         <Spin size="large" />
