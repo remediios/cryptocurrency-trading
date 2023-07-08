@@ -10,6 +10,7 @@ import { Form, InputNumber, Button, Image } from "antd";
 import { ContextAPI } from "../../context/ContextAPI";
 import { CryptoInfo } from "../../config/chart/api";
 import axios from "axios";
+import Loading from "../Loading";
 
 function Prediction() {
   const [form] = Form.useForm();
@@ -21,22 +22,9 @@ function Prediction() {
     currencyImg,
     setCurrencyImg,
   } = useContext(ContextAPI);
-  // eslint-disable-next-line
-  const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
-  const [mockData, setMockData] = useState({
-    currency: "bitcoin",
-    data: [
-      {
-        price: 451.8596,
-        marketCap: 5507908704.8855,
-        totalVolume: 16805206.31365,
-        change24h: 1.94,
-        change7d: 19.45,
-      },
-    ],
-  });
+  const [prediction, setPrediction] = useState("---");
 
   useEffect(() => {
     forceUpdate({});
@@ -60,8 +48,12 @@ function Prediction() {
   }, [currencyID, currencyImg]);
 
   const onFinish = (values) => {
-    console.log(values);
-    submitData();
+    const data = [values];
+    const payload = {
+      currency: currencyID,
+      data: data,
+    };
+    submitData(payload);
   };
 
   const fetchData = async () => {
@@ -78,15 +70,26 @@ function Prediction() {
     }
   };
 
-  const submitData = async () => {
+  const submitData = async (data) => {
     try {
       setLoading(true);
       const response = await axios.post(
         "http://127.0.0.1:5000/api/predict",
-        mockData
+        data
       );
 
-      console.log("Prediction result:", response.data);
+      const prediction = response.data.response;
+      switch (prediction) {
+        case 0:
+          setPrediction("decrease");
+          break;
+        case 1:
+          setPrediction("increase");
+          break;
+        case 2:
+          setPrediction("stay the same");
+          break;
+      }
       setLoading(false);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -117,7 +120,7 @@ function Prediction() {
             { name: ["price"], value: undefined },
             { name: ["marketCap"], value: undefined },
             { name: ["totalVolume"], value: undefined },
-            { name: ["change24hr"], value: undefined },
+            { name: ["change24h"], value: undefined },
             { name: ["change7d"], value: undefined },
           ]}
           name="prediction_form"
@@ -165,7 +168,7 @@ function Prediction() {
             />
           </Form.Item>
           <Form.Item
-            name="change24hr"
+            name="change24h"
             rules={[
               {
                 required: true,
@@ -174,12 +177,7 @@ function Prediction() {
             ]}
             style={{ width: 220 }}
           >
-            <InputNumber
-              min={0}
-              max={100}
-              addonBefore="24hr Change"
-              addonAfter="%"
-            />
+            <InputNumber addonBefore="24hr Change" addonAfter="%" />
           </Form.Item>
           <Form.Item
             name="change7d"
@@ -191,12 +189,7 @@ function Prediction() {
             ]}
             style={{ width: 200 }}
           >
-            <InputNumber
-              min={0}
-              max={100}
-              addonBefore="7d Change"
-              addonAfter="%"
-            />
+            <InputNumber addonBefore="7d Change" addonAfter="%" />
           </Form.Item>
           <Form.Item shouldUpdate>
             {() => (
@@ -216,7 +209,13 @@ function Prediction() {
         </Form>
         <PredictionResultContainer>
           <PredictionResultHeader>Prediction :</PredictionResultHeader>
-          <PredictionResult>increase</PredictionResult>
+          <PredictionResult prediction={prediction}>
+            {!loading
+              ? prediction !== null
+                ? prediction.toUpperCase()
+                : "No prediction"
+              : "Loading..."}{" "}
+          </PredictionResult>
         </PredictionResultContainer>
       </PredictionContainer>
     </>

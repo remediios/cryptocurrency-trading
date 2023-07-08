@@ -27,4 +27,16 @@ export const PredictionResultHeader = styled.h4`
 
 export const PredictionResult = styled.p`
   font-size: 14px;
+  font-weight: 800;
+  color: ${(props) => {
+    if (props.prediction === "increase") {
+      return "green";
+    } else if (props.prediction === "decrease") {
+      return "red";
+    } else if (props.prediction === "stay the same") {
+      return "blue";
+    } else {
+      return "black"; // default color
+    }
+  }};
 `;
