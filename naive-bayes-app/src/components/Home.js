@@ -17,6 +17,7 @@ import { buttonOptions } from "../config/chart/buttons";
 import ChartButton from "./chart/ChartButton";
 import { selectOptions } from "../config/chart/selectOptions";
 import Loading from "./Loading";
+import Prediction from "./predict/Prediction";
 
 function Home() {
   ChartJS.register(...registerables);
@@ -111,6 +112,7 @@ function Home() {
 
   return (
     <>
+      <Prediction />
       <ChartCointainer>
         {!chartData ? (
           <Loading margin={0} />

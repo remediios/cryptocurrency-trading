@@ -1,10 +1,12 @@
 import numpy as np
 import pandas as pd
 from flask import Flask, request, jsonify, Blueprint
+from flask_cors import CORS
 import joblib
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 # BITCOIN LOADING
 btc_model = joblib.load("btc_model.joblib")
