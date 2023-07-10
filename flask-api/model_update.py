@@ -58,7 +58,6 @@ def train_model(df, currency):
 
     # Calculate the accuracy of the classifier
     accuracy = accuracy_score(y_test, y_pred)
-    print("Accuracy:", accuracy)
 
     joblib.dump(nb_classifier, f"{currency}_model.joblib")
     # Save the scaler

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Image, Button, Progress } from "antd";
 import { CSVLink } from "react-csv";
 import { Typography } from "antd";
@@ -17,11 +17,23 @@ function TableHeader({
   //eslint-disable-next-line
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
+
+  useEffect(() => {
+    setShowProgress(false);
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    setShowProgress(false);
+    //eslint-disable-next-line
+  }, [currencyID]);
 
   const submitData = async (data) => {
     try {
       setLoading(true);
       setProgress(0);
+      setShowProgress(true);
       const response = await axios.post(
         `http://127.0.0.1:5000/api/update/${currencyID}`,
         data,
@@ -32,8 +44,10 @@ function TableHeader({
               (progressEvent.loaded * 100) / progressEvent.total
             );
 
-            // Update the progress state variable
-            setProgress(percentage);
+            // Introduce a 5ms delay before updating the progress state
+            setTimeout(() => {
+              setProgress(percentage);
+            }, 500);
           },
         }
       );
@@ -93,7 +107,16 @@ function TableHeader({
         >
           Update Model
         </Button>
-        <Progress percent={progress} type="circle" size={[25, 20]} />
+        {showProgress ? (
+          <Progress
+            percent={progress}
+            type="circle"
+            size={[25, 20]}
+            style={{ marginLeft: "10px", marginTop: "8px" }}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

@@ -75,7 +75,6 @@ def update_model1():
         request_data = request.get_json()
         df = pd.DataFrame.from_records(request_data)  # Convert JSON list to DataFrame
         cleaned_data = clean_data(df)
-        print(cleaned_data)
         accuracy = train_model(cleaned_data, "btc")
         print(accuracy)
         return "BTC model updated successfully!"
@@ -89,7 +88,6 @@ def update_model2():
         request_data = request.get_json()
         df = pd.DataFrame.from_records(request_data)  # Convert JSON list to DataFrame
         cleaned_data = clean_data(df)
-        print(cleaned_data)
         accuracy = train_model(cleaned_data, "eth")
         print(accuracy)
         return "ETH model updated successfully!"
