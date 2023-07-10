@@ -10,7 +10,6 @@ import { Form, InputNumber, Button, Image } from "antd";
 import { ContextAPI } from "../../context/ContextAPI";
 import { CryptoInfo } from "../../config/chart/api";
 import axios from "axios";
-import Loading from "../Loading";
 
 function Prediction() {
   const [form] = Form.useForm();
@@ -53,6 +52,7 @@ function Prediction() {
       currency: currencyID,
       data: data,
     };
+    console.log(payload);
     submitData(payload);
   };
 
@@ -79,6 +79,7 @@ function Prediction() {
       );
 
       const prediction = response.data.response;
+      // eslint-disable-next-line
       switch (prediction) {
         case 0:
           setPrediction("decrease");

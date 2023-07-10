@@ -32,9 +32,9 @@ function NavigationBar() {
           Ethereum
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="/charts">
-        <NavLink to="/charts" activeClassName="active">
-          Charts
+      <Menu.Item key="/about">
+        <NavLink to="/about" activeClassName="active">
+          About
         </NavLink>
       </Menu.Item>
     </Menu>
