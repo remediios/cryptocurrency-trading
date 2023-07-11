@@ -39,12 +39,10 @@ function TableHeader({
         data,
         {
           onUploadProgress: (progressEvent) => {
-            // Calculate the progress percentage
             const percentage = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
 
-            // Introduce a 5ms delay before updating the progress state
             setTimeout(() => {
               setProgress(percentage);
             }, 500);
