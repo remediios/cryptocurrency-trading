@@ -3,7 +3,7 @@ import Home from "./components/Home";
 import { Routes, Route } from "react-router-dom";
 import NavigationBar from "./components/navigation/NavigationBar";
 import { ContextProvider } from "./context/ContextAPI";
-import StatsChart from "./components/chart/StatsChart";
+import About from "./components/About";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/bitcoin" element={<Data currency={"bitcoin"} />} />
           <Route path="/ethereum" element={<Data currency={"ethereum"} />} />
-          <Route path="/charts" element={<StatsChart />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </ContextProvider>
     </>

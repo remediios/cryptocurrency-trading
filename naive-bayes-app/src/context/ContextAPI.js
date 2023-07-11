@@ -6,6 +6,8 @@ export function ContextProvider({ children }) {
   const [currencyName, setCurrencyName] = useState("bitcoin");
   const [currencyData, setCurrencyData] = useState([]);
   const [currencyID, setCurrencyID] = useState("bitcoin");
+  const [currencySymbol, setCurrencySymbol] = useState("btc");
+  const [currencyImg, setCurrencyImg] = useState("");
 
   return (
     <ContextAPI.Provider
@@ -16,6 +18,10 @@ export function ContextProvider({ children }) {
         setCurrencyID,
         currencyData,
         setCurrencyData,
+        currencySymbol,
+        setCurrencySymbol,
+        currencyImg,
+        setCurrencyImg,
       }}
     >
       {children}
