@@ -54,7 +54,6 @@ function Prediction() {
       currency: currencyID,
       data: data,
     };
-    console.log(payload);
     submitData(payload);
   };
 
@@ -97,8 +96,18 @@ function Prediction() {
           predictionLabel = "";
       }
 
+      const { price, marketCap, totalVolume, change24h, change7d } =
+        data.data[0];
       setPrediction(predictionLabel);
-      addToSearchHistory(predictionLabel);
+      addToSearchHistory({
+        currency: currencyID,
+        predictionLabel: predictionLabel,
+        price: price,
+        marketCap: marketCap,
+        totalVolume: totalVolume,
+        change24h: change24h,
+        change7d: change7d,
+      });
       setLoading(false);
     } catch (error) {
       console.error("Error submitting data:", error);

@@ -54,3 +54,12 @@ export const SearchHistoryHeader = styled.h4`
   margin-right: 10px;
   margin
 `;
+
+export const PopoverItemTitle = styled.p`
+  font-weight: 600;
+  font-size: 15px;
+`;
+
+export const PopoverItemTag = styled.p`
+  font-size: 14px;
+`;
