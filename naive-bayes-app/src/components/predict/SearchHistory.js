@@ -79,9 +79,10 @@ function SearchHistory({ history }) {
               <List.Item
                 style={{
                   display: "inline-block",
-                  padding: "4px",
+                  padding: "5px",
                   alignItems: "baseline",
                   border: "1px solid #e8e8e8",
+                  borderRadius: "8px",
                   marginLeft: "10px",
                 }}
                 onMouseEnter={() => handleItemHover(item)}
