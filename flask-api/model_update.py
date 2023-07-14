@@ -23,7 +23,7 @@ def clean_data(df):
     return df_filtered
 
 
-def train_model(df, currency):
+def train_model(df, currency, timeGranularity):
     label_encoder = LabelEncoder()
     df['label'] = label_encoder.fit_transform(df['label'])
 
@@ -59,7 +59,7 @@ def train_model(df, currency):
     # Calculate the accuracy of the classifier
     accuracy = accuracy_score(y_test, y_pred)
 
-    joblib.dump(nb_classifier, f"{currency}_model.joblib")
+    joblib.dump(nb_classifier, f"{currency}_model_{timeGranularity}.joblib")
     # Save the scaler
-    joblib.dump(scaler, f"{currency}_scaler.joblib")
+    joblib.dump(scaler, f"{currency}_scaler_{timeGranularity}.joblib")
     return accuracy
