@@ -23,7 +23,7 @@ function Home() {
   ChartJS.register(...registerables);
   const [chartData, setChartData] = useState(null);
   const [days, setDays] = useState(365);
-  const { currencyID, setCurrencyID, currencyData } = useContext(ContextAPI);
+  const { currencyID, setCurrencyID } = useContext(ContextAPI);
   const [chartContent, setChartContent] = useState("price");
   //eslint-disable-next-line
   const [loading, setLoading] = useState(false);
@@ -37,11 +37,6 @@ function Home() {
     setCurrencyID("bitcoin");
     //eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    console.log(currencyData);
-    //eslint-disable-next-line
-  }, [currencyData]);
 
   const fetchData = async () => {
     try {

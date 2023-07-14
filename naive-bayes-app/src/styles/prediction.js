@@ -12,6 +12,7 @@ export const PredictionContainer = styled.div`
 export const PredictionHeader = styled.h2`
   font-size: 20px;
   font-weight: 600;
+  margin-bottom: 0px;
 `;
 
 export const PredictionResultContainer = styled.div`
@@ -39,4 +40,26 @@ export const PredictionResult = styled.p`
       return "black"; // default color
     }
   }};
+`;
+
+export const SearchHistoryContainer = styled.div`
+  display: flex;
+  align-items: baseline;
+  margin-top: 5px;
+`;
+
+export const SearchHistoryHeader = styled.h4`
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 10px;
+  margin
+`;
+
+export const PopoverItemTitle = styled.p`
+  font-weight: 600;
+  font-size: 15px;
+`;
+
+export const PopoverItemTag = styled.p`
+  font-size: 14px;
 `;

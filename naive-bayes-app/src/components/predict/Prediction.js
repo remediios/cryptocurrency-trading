@@ -10,6 +10,7 @@ import { Form, InputNumber, Button, Image } from "antd";
 import { ContextAPI } from "../../context/ContextAPI";
 import { CryptoInfo } from "../../config/chart/api";
 import axios from "axios";
+import SearchHistory from "./SearchHistory";
 
 function Prediction() {
   const [form] = Form.useForm();
@@ -24,6 +25,7 @@ function Prediction() {
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [prediction, setPrediction] = useState("---");
+  const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
     forceUpdate({});
@@ -52,7 +54,6 @@ function Prediction() {
       currency: currencyID,
       data: data,
     };
-    console.log(payload);
     submitData(payload);
   };
 
@@ -79,23 +80,44 @@ function Prediction() {
       );
 
       const prediction = response.data.response;
-      // eslint-disable-next-line
+      let predictionLabel;
+
       switch (prediction) {
         case 0:
-          setPrediction("decrease");
+          predictionLabel = "decrease";
           break;
         case 1:
-          setPrediction("increase");
+          predictionLabel = "increase";
           break;
         case 2:
-          setPrediction("stay the same");
+          predictionLabel = "stay the same";
           break;
+        default:
+          predictionLabel = "";
       }
+
+      const { price, marketCap, totalVolume, change24h, change7d } =
+        data.data[0];
+      setPrediction(predictionLabel);
+      addToSearchHistory({
+        currency: currencyID,
+        predictionLabel: predictionLabel,
+        price: price,
+        marketCap: marketCap,
+        totalVolume: totalVolume,
+        change24h: change24h,
+        change7d: change7d,
+      });
       setLoading(false);
     } catch (error) {
       console.error("Error submitting data:", error);
       setLoading(false);
     }
+  };
+
+  const addToSearchHistory = (prediction) => {
+    const newSearchHistory = [...searchHistory, prediction];
+    setSearchHistory(newSearchHistory);
   };
 
   return (
@@ -115,6 +137,7 @@ function Prediction() {
           ) : undefined}
           CRYPTOCURRENCY PRICE MOVEMENT PREDICTION
         </PredictionHeader>
+        <SearchHistory history={searchHistory} />
         <Form
           form={form}
           fields={[
@@ -127,6 +150,9 @@ function Prediction() {
           name="prediction_form"
           layout="inline"
           onFinish={onFinish}
+          style={{
+            marginTop: 8,
+          }}
         >
           <Form.Item
             name="price"
