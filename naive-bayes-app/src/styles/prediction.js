@@ -12,7 +12,6 @@ export const PredictionContainer = styled.div`
 export const PredictionHeader = styled.h2`
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 0px;
 `;
 
 export const PredictionResultContainer = styled.div`
@@ -24,11 +23,13 @@ export const PredictionResultHeader = styled.h4`
   font-size: 14px;
   font-weight: 500;
   margin-right: 10px;
+  margin-bottom: 0px;
 `;
 
 export const PredictionResult = styled.p`
   font-size: 14px;
   font-weight: 800;
+  margin-bottom: 0px;
   color: ${(props) => {
     if (props.prediction === "increase") {
       return "green";

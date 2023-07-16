@@ -246,7 +246,7 @@ function Prediction() {
               : "Loading..."}{" "}
           </PredictionResult>
         </PredictionResultContainer>
-        <RealTimePrediction />
+        <RealTimePrediction prediction={prediction} />
       </PredictionContainer>
     </>
   );
