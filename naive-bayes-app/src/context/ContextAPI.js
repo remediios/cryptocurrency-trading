@@ -8,6 +8,7 @@ export function ContextProvider({ children }) {
   const [currencyID, setCurrencyID] = useState("bitcoin");
   const [currencySymbol, setCurrencySymbol] = useState("btc");
   const [currencyImg, setCurrencyImg] = useState("");
+  const [timeGranularity, setTimeGranularity] = useState("daily");
 
   return (
     <ContextAPI.Provider
@@ -22,6 +23,8 @@ export function ContextProvider({ children }) {
         setCurrencySymbol,
         currencyImg,
         setCurrencyImg,
+        timeGranularity,
+        setTimeGranularity,
       }}
     >
       {children}

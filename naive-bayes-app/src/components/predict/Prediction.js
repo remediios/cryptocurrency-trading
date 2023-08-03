@@ -11,6 +11,7 @@ import { ContextAPI } from "../../context/ContextAPI";
 import { CryptoInfo } from "../../config/chart/api";
 import axios from "axios";
 import SearchHistory from "./SearchHistory";
+import RealTimePrediction from "./RealTimePrediction";
 
 function Prediction() {
   const [form] = Form.useForm();
@@ -55,6 +56,7 @@ function Prediction() {
       data: data,
     };
     submitData(payload);
+    console.log(payload);
   };
 
   const fetchData = async () => {
@@ -75,10 +77,10 @@ function Prediction() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/predict",
+        "http://127.0.0.1:5000/api/predict/daily",
         data
       );
-
+      console.log(response);
       const prediction = response.data.response;
       let predictionLabel;
 
@@ -244,6 +246,7 @@ function Prediction() {
               : "Loading..."}{" "}
           </PredictionResult>
         </PredictionResultContainer>
+        <RealTimePrediction prediction={prediction} />
       </PredictionContainer>
     </>
   );

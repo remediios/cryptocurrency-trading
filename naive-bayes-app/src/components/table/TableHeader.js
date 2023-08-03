@@ -13,7 +13,13 @@ function TableHeader({
   currency,
 }) {
   const { Title } = Typography;
-  const { currencyName, currencyData, currencyID } = useContext(ContextAPI);
+  const {
+    currencyName,
+    currencyData,
+    currencyID,
+    timeGranularity,
+    setTimeGranularity,
+  } = useContext(ContextAPI);
   //eslint-disable-next-line
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -35,7 +41,7 @@ function TableHeader({
       setProgress(0);
       setShowProgress(true);
       const response = await axios.post(
-        `http://127.0.0.1:5000/api/update/${currencyID}`,
+        `http://127.0.0.1:5000/api/update/${currencyID}/${timeGranularity}`,
         data,
         {
           onUploadProgress: (progressEvent) => {
@@ -55,6 +61,10 @@ function TableHeader({
       console.error("Error submitting data:", error);
       setLoading(false);
     }
+  };
+
+  const handleToggle = () => {
+    setTimeGranularity(timeGranularity === "hourly" ? "daily" : "hourly");
   };
 
   return (
@@ -89,6 +99,24 @@ function TableHeader({
           >
             Export CSV
           </CSVLink>
+        </Button>
+        <Button
+          type="primary"
+          style={{
+            marginTop: "10px",
+            marginLeft: "10px",
+            height: "25px",
+            width: "100px",
+            fontSize: "10px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          onClick={handleToggle}
+        >
+          Change to{" "}
+          {timeGranularity === "hourly"
+            ? "daily".toUpperCase()
+            : "hourly".toUpperCase()}
         </Button>
         <Button
           type="primary"

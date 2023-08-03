@@ -26,6 +26,7 @@ function Data({ currency }) {
     setCurrencyID,
     currencyData,
     setCurrencyData,
+    timeGranularity,
   } = useContext(ContextAPI);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ function Data({ currency }) {
             params: {
               vs_currency: "gbp",
               days: "max",
-              interval: "daily",
+              interval: timeGranularity,
             },
           }
         );
@@ -128,7 +129,7 @@ function Data({ currency }) {
 
     getBitcoinHistoricalData();
     // eslint-disable-next-line
-  }, [currency]);
+  }, [currency, timeGranularity]);
 
   // Calculate the index of the last row to display based on the current page and rows per page
   const lastIndex = currentPage * rowsPerPage;
