@@ -24,7 +24,7 @@ function RealTimePrediction() {
             params: {
               vs_currency: "gbp",
               days: "max",
-              interval: "hourly",
+              interval: "daily",
             },
           }
         );
@@ -74,7 +74,7 @@ function RealTimePrediction() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/predict/hourly",
+        "http://127.0.0.1:5000/api/predict/daily",
         data
       );
       const prediction = response.data.response;
@@ -107,7 +107,7 @@ function RealTimePrediction() {
       <PredictionResultContainer>
         <PredictionResultHeader>Real-Time Prediction :</PredictionResultHeader>
         <p style={{ fontSize: "14px", marginRight: "5px" }}>
-          The prediction for the next hour is
+          The next price movement prediction is
         </p>
         <PredictionResult prediction={prediction}>
           {loading ? "Loading..." : prediction}
