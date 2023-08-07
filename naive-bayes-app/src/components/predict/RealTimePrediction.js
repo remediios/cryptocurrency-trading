@@ -23,8 +23,7 @@ function RealTimePrediction() {
           {
             params: {
               vs_currency: "gbp",
-              days: "max",
-              interval: "daily",
+              days: 90,
             },
           }
         );
@@ -73,8 +72,9 @@ function RealTimePrediction() {
   const submitData = async (data) => {
     try {
       setLoading(true);
+      console.log(data);
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/predict/daily",
+        "http://127.0.0.1:5000/api/predict/hourly",
         data
       );
       const prediction = response.data.response;

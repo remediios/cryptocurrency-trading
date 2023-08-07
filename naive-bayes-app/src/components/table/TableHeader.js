@@ -19,6 +19,8 @@ function TableHeader({
     currencyID,
     timeGranularity,
     setTimeGranularity,
+    days,
+    setDays,
   } = useContext(ContextAPI);
   //eslint-disable-next-line
   const [loading, setLoading] = useState(false);
@@ -40,6 +42,7 @@ function TableHeader({
       setLoading(true);
       setProgress(0);
       setShowProgress(true);
+      console.log(data);
       const response = await axios.post(
         `http://127.0.0.1:5000/api/update/${currencyID}/${timeGranularity}`,
         data,
@@ -65,6 +68,7 @@ function TableHeader({
 
   const handleToggle = () => {
     setTimeGranularity(timeGranularity === "hourly" ? "daily" : "hourly");
+    setDays(timeGranularity === "hourly" ? "max" : 90);
   };
 
   return (
@@ -114,7 +118,7 @@ function TableHeader({
           onClick={handleToggle}
         >
           Change to{" "}
-          {timeGranularity === "hourly"
+          {timeGranularity === "hourly" && days == 90
             ? "daily".toUpperCase()
             : "hourly".toUpperCase()}
         </Button>
