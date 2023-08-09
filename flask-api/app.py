@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from flask import Flask, request, jsonify, Blueprint
 from flask_cors import CORS
@@ -57,11 +56,13 @@ def predict():
         print(model_data_normalized)
         prediction = btc_model_daily.predict(model_data_normalized)
         prediction_scaled = prediction.item(0)
+        print("Price Movement Prediction: ", prediction)
     elif currency == "ethereum":
         model_data_normalized = eth_scaler_daily.transform(df)
         print(model_data_normalized)
         prediction = eth_model_daily.predict(model_data_normalized)
         prediction_scaled = prediction.item(0)
+        print("Price Movement Prediction: ", prediction)
     else:
         return "Coin not permitted!"
 
@@ -99,11 +100,13 @@ def predict2():
         print(model_data_normalized)
         prediction = btc_model_hourly.predict(model_data_normalized)
         prediction_scaled = prediction.item(0)
+        print("Price Movement Prediction: ", prediction)
     elif currency == "ethereum":
         model_data_normalized = eth_scaler_hourly.transform(df)
         print(model_data_normalized)
         prediction = eth_model_hourly.predict(model_data_normalized)
         prediction_scaled = prediction.item(0)
+        print("Price Movement Prediction: ", prediction)
     else:
         return "Coin not permitted!"
 
@@ -119,7 +122,7 @@ def predict2():
 def update_model1():
     try:
         request_data = request.get_json()
-        df = pd.DataFrame.from_records(request_data)  # Convert JSON list to DataFrame
+        df = pd.DataFrame.from_records(request_data)
         cleaned_data = clean_data(df)
         accuracy = train_model(cleaned_data, "btc", "daily")
         print(accuracy)
@@ -132,7 +135,7 @@ def update_model1():
 def update_model2():
     try:
         request_data = request.get_json()
-        df = pd.DataFrame.from_records(request_data)  # Convert JSON list to DataFrame
+        df = pd.DataFrame.from_records(request_data)
         cleaned_data = clean_data(df)
         accuracy = train_model(cleaned_data, "eth", "daily")
         print(accuracy)

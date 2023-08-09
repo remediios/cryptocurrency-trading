@@ -49,13 +49,10 @@ def train_model(df, currency, timeGranularity):
 
     # Initialize a Gaussian Naive Bayes classifier
     nb_classifier = GaussianNB()
-
     # Train the classifier
     nb_classifier.fit(X_train, y_train)
-
     # Make predictions on the test set
     y_pred = nb_classifier.predict(X_test)
-
     # Calculate the accuracy of the classifier
     accuracy = accuracy_score(y_test, y_pred)
 

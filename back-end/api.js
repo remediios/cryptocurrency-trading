@@ -6,7 +6,6 @@ router.post("/store-data", async (req, res) => {
   try {
     // Extract the API data from the request body
     const { currency, data } = req.body;
-
     console.log("Currency: ", currency, "\nData: ", data);
 
     // Store the data in the corresponding table
@@ -23,7 +22,6 @@ router.post("/store-data", async (req, res) => {
         change7d,
         label,
       } = item;
-
       console.log(
         date,
         price,
@@ -33,7 +31,6 @@ router.post("/store-data", async (req, res) => {
         change7d,
         label
       );
-
       await pool.query(query, [
         date,
         price,
@@ -44,6 +41,7 @@ router.post("/store-data", async (req, res) => {
         label,
       ]);
     }
+
     res.status(200).json({ message: "Data stored successfully" });
   } catch (error) {
     console.error("Error: ", error);
