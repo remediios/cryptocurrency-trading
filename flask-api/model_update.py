@@ -56,7 +56,7 @@ def train_model(df, currency, timeGranularity):
     # Calculate the accuracy of the classifier
     accuracy = accuracy_score(y_test, y_pred)
 
-    joblib.dump(nb_classifier, f"{currency}_model_{timeGranularity}.joblib")
+    joblib.dump(nb_classifier, f"models/{currency}_model_{timeGranularity}.joblib")
     # Save the scaler
-    joblib.dump(scaler, f"{currency}_scaler_{timeGranularity}.joblib")
+    joblib.dump(scaler, f"scalers/{currency}_scaler_{timeGranularity}.joblib")
     return accuracy

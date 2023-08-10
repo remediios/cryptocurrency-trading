@@ -10,16 +10,16 @@ app = Flask(__name__)
 CORS(app)
 
 # BITCOIN LOADING
-btc_model_daily = joblib.load("btc_model_daily.joblib")
-btc_scaler_daily = joblib.load("btc_scaler_daily.joblib")
-btc_model_hourly = joblib.load("btc_model_hourly.joblib")
-btc_scaler_hourly = joblib.load("btc_scaler_hourly.joblib")
+btc_model_daily = joblib.load("models/btc_model_daily.joblib")
+btc_scaler_daily = joblib.load("scalers/btc_scaler_daily.joblib")
+btc_model_hourly = joblib.load("models/btc_model_hourly.joblib")
+btc_scaler_hourly = joblib.load("scalers/btc_scaler_hourly.joblib")
 
 # ETHEREUM LOADING
-eth_model_daily = joblib.load("eth_model_daily.joblib")
-eth_scaler_daily = joblib.load("eth_scaler_daily.joblib")
-eth_model_hourly = joblib.load("eth_model_hourly.joblib")
-eth_scaler_hourly = joblib.load("eth_scaler_hourly.joblib")
+eth_model_daily = joblib.load("models/eth_model_daily.joblib")
+eth_scaler_daily = joblib.load("scalers/eth_scaler_daily.joblib")
+eth_model_hourly = joblib.load("models/eth_model_hourly.joblib")
+eth_scaler_hourly = joblib.load("scalers/eth_scaler_hourly.joblib")
 
 # Create a Flask blueprint with the base URL prefix
 api_bp = Blueprint('api', __name__, url_prefix='/api')
