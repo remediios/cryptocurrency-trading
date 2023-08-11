@@ -4,7 +4,9 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support, roc_auc_score, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 import joblib
 
 
@@ -55,6 +57,26 @@ def train_model(df, currency, timeGranularity):
     y_pred = nb_classifier.predict(X_test)
     # Calculate the accuracy of the classifier
     accuracy = accuracy_score(y_test, y_pred)
+
+    # Calculate overall metrics for the entire model
+    average_strategy = 'weighted'  # or 'macro'
+    precision, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average=average_strategy)
+
+    # Print the overall metrics
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+    print(f"F1-Score: {f1:.4f}")
+
+    # Compute the confusion matrix
+    cm = confusion_matrix(y_test, y_pred)
+    # Create a heatmap for the confusion matrix
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=False)
+    plt.title(f'{currency}_{timeGranularity} Confusion Matrix (Accuracy: {accuracy:.4f})')
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    # plt.savefig(f'{currency}_{timeGranularity}.png')
+    # plt.show()
 
     joblib.dump(nb_classifier, f"models/{currency}_model_{timeGranularity}.joblib")
     # Save the scaler
