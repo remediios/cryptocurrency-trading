@@ -4,7 +4,10 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, roc_auc_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support, roc_curve, auc, confusion_matrix
+from sklearn.metrics import roc_curve, auc
+from sklearn.preprocessing import label_binarize
+from scipy import interp
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
@@ -59,7 +62,7 @@ def train_model(df, currency, timeGranularity):
     accuracy = accuracy_score(y_test, y_pred)
 
     # Calculate overall metrics for the entire model
-    average_strategy = 'weighted'  # or 'macro'
+    average_strategy = 'weighted'
     precision, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average=average_strategy)
 
     # Print the overall metrics
@@ -77,6 +80,32 @@ def train_model(df, currency, timeGranularity):
     plt.ylabel('Actual')
     # plt.savefig(f'{currency}_{timeGranularity}.png')
     # plt.show()
+
+    y_test_bin = label_binarize(y_test, classes=[0, 1, 2])
+    y_pred_prob = nb_classifier.predict_proba(X_test)
+
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+
+    for i in range(len(label_encoder.classes_)):
+        fpr[i], tpr[i], _ = roc_curve(y_test_bin[:, i], y_pred_prob[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+
+    plt.figure(figsize=(10, 8))
+    colors = ['blue', 'orange', 'green']
+
+    for i, color in zip(range(len(label_encoder.classes_)), colors):
+        plt.plot(fpr[i], tpr[i], color=color, lw=2, label=f'Class {label_mapping[i]} (AUC = {roc_auc[i]:.2f})')
+
+    plt.plot([0, 1], [0, 1], color='gray', lw=2, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver Operating Characteristic')
+    plt.legend(loc="lower right")
+    plt.show()
 
     joblib.dump(nb_classifier, f"models/{currency}_model_{timeGranularity}.joblib")
     # Save the scaler
