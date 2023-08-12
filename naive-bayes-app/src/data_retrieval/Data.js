@@ -28,11 +28,10 @@ function Data({ currency }) {
     setCurrencyData,
     timeGranularity,
     days,
-    setDays,
   } = useContext(ContextAPI);
 
   useEffect(() => {
-    async function getBitcoinHistoricalData() {
+    async function getHistoricalData() {
       try {
         const response = await axios.get(
           `https://api.coingecko.com/api/v3/coins/${currency}/market_chart`,
@@ -63,6 +62,7 @@ function Data({ currency }) {
             .toISOString()
             .slice(0, 19)
             .replace("T", " ");
+
           const previousPrice = index > 0 ? prices[index - 1][1] : "-";
           const priceChange =
             index > 0 ? ((price - previousPrice) / previousPrice) * 100 : 0;
@@ -128,7 +128,7 @@ function Data({ currency }) {
       }
     }
 
-    getBitcoinHistoricalData();
+    getHistoricalData();
     // eslint-disable-next-line
   }, [currency, timeGranularity, days]);
 

@@ -118,7 +118,7 @@ function TableHeader({
           onClick={handleToggle}
         >
           Change to{" "}
-          {timeGranularity === "hourly" && days == 90
+          {timeGranularity === "hourly" && days === 90
             ? "daily".toUpperCase()
             : "hourly".toUpperCase()}
         </Button>

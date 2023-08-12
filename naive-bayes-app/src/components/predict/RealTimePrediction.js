@@ -9,6 +9,7 @@ import { ContextAPI } from "../../context/ContextAPI";
 
 function RealTimePrediction() {
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
   const [payload, setPayload] = useState({});
   const [prediction, setPrediction] = useState("---");
 
