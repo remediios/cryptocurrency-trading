@@ -27,7 +27,6 @@ def clean_data(df):
     df_filtered = df_cleaned[df_cleaned['totalVolume'] != 0]
     return df_filtered
 
-
 def train_model(df, currency, timeGranularity):
     label_encoder = LabelEncoder()
     df['label'] = label_encoder.fit_transform(df['label'])
@@ -81,6 +80,7 @@ def train_model(df, currency, timeGranularity):
     # plt.savefig(f'{currency}_{timeGranularity}.png')
     # plt.show()
 
+    # PLOT ROC CURVE FOR ALL CLASSES
     y_test_bin = label_binarize(y_test, classes=[0, 1, 2])
     y_pred_prob = nb_classifier.predict_proba(X_test)
 
@@ -103,9 +103,10 @@ def train_model(df, currency, timeGranularity):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('Receiver Operating Characteristic')
+    plt.title(f'{currency}_{timeGranularity} ROC Graph')
     plt.legend(loc="lower right")
-    plt.show()
+    # plt.savefig(f'{currency}_{timeGranularity}.png')
+    # plt.show()
 
     joblib.dump(nb_classifier, f"models/{currency}_model_{timeGranularity}.joblib")
     # Save the scaler
