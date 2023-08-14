@@ -1,0 +1,99 @@
+cryptocurrency-trading
+├─ ReadME.md                          # Main readme file
+├─ back-end                           # ExpressJS backend directory
+│  ├─ api.js                          # API implementation
+│  ├─ db.js                           # Database related functions
+│  ├─ package-lock.json               # Package lock file
+│  ├─ package.json                    # Package information
+│  └─ server.js                       # Main server file
+├─ data-mining                        # Data mining directory
+│  ├─ bitcoin                         # Bitcoin data mining
+│  │  ├─ ANN-model-btc.ipynb          # Artificial Neural Network model for Bitcoin
+│  │  ├─ DT-model-btc.ipynb           # Decision Tree model for Bitcoin
+│  │  ├─ RF-model-btc.ipynb           # Random Forest model for Bitcoin
+│  │  ├─ SVM-model-btc.ipynb          # Support Vector Machine model for Bitcoin
+│  │  └─ naive-bayes                  # Naive Bayes directory for Bitcoin
+│  │     ├─ NB-ENSEMBLE(Bagging)-model-btc.ipynb  # Naive Bayes Ensemble (Bagging) model for Bitcoin
+│  │     ├─ NB-ENSEMBLE(Boosting)-model-btc.ipynb # Naive Bayes Ensemble (Boosting) model for Bitcoin
+│  │     └─ NB-model-btc.ipynb         # Naive Bayes model for Bitcoin
+│  ├─ data-visualisation-daily.ipynb   # Data visualization notebook
+│  ├─ ethereum                        # Ethereum data mining
+│  │  ├─ ANN-model-eth.ipynb          # Artificial Neural Network model for Ethereum
+│  │  ├─ DT-model-eth.ipynb           # Decision Tree model for Ethereum
+│  │  ├─ RF-model-eth.ipynb           # Random Forest model for Ethereum
+│  │  ├─ SVM-model-eth.ipynb          # Support Vector Machine model for Ethereum
+│  │  └─ naive-bayes                  # Naive Bayes directory for Ethereum
+│  │     ├─ NB-ENSEMBLE(Bagging)-model-eth.ipynb  # Naive Bayes Ensemble (Bagging) model for Ethereum
+│  │     ├─ NB-ENSEMBLE(Boosting)-model-eth.ipynb # Naive Bayes Ensemble (Boosting) model for Ethereum
+│  │     ├─ NB-SMOTE-model-eth.ipynb   # Naive Bayes SMOTE model for Ethereum
+│  │     └─ NB-model-eth.ipynb         # Naive Bayes model for Ethereum
+│  ├─ feature-engineering-cleaning.ipynb # Feature engineering and data cleaning notebook
+│  ├─ filtered_data                   # Filtered data directory
+│  │  ├─ btc_daily_filtered.csv       # Filtered daily Bitcoin data
+│  │  ├─ btc_hr_filtered.csv          # Filtered hourly Bitcoin data
+│  │  ├─ eth_daily_filtered.csv       # Filtered daily Ethereum data
+│  │  └─ eth_hr_filtered.csv          # Filtered hourly Ethereum data
+│  └─ raw_data                        # Raw data directory
+│     ├─ btc_daily.csv                # Raw daily Bitcoin data
+│     ├─ btc_hr.csv                   # Raw hourly Bitcoin data
+│     ├─ eth_daily.csv                # Raw daily Ethereum data
+│     └─ eth_hr.csv                   # Raw hourly Ethereum data
+├─ flask-api                          # Flask API directory
+│  ├─ dataset                         # Dataset directory
+│  │  ├─ btc.csv                      # Bitcoin dataset
+│  │  └─ eth.csv                      # Ethereum dataset
+│  ├─ models                          # Models directory
+│  │  ├─ btc_model_daily.joblib       # Bitcoin daily model
+│  │  ├─ btc_model_hourly.joblib      # Bitcoin hourly model
+│  │  ├─ eth_model_daily.joblib       # Ethereum daily model
+│  │  └─ eth_model_hourly.joblib      # Ethereum hourly model
+│  ├─ scalers                         # Scalers directory
+│  │  ├─ btc_scaler_daily.joblib      # Bitcoin daily scaler
+│  │  ├─ btc_scaler_hourly.joblib     # Bitcoin hourly scaler
+│  │  ├─ eth_scaler_daily.joblib      # Ethereum daily scaler
+│  │  └─ eth_scaler_hourly.joblib     # Ethereum hourly scaler
+│  ├─ app.py                          # Flask application main file
+│  ├─ model_update.py                 # Model update script
+│  └─ test_app.py                     # Test script for the Flask application
+└─ naive-bayes-app                    # Naive Bayes app directory
+   ├─ README.md                       # Readme file for the Naive Bayes app
+   ├─ package-lock.json               # Package lock file
+   ├─ package.json                    # Package information
+   ├─ public                          # Public directory for the app
+   │  └─ index.html                   # Main HTML file
+   └─ src                             # Source code directory for the app
+      ├─ App.js                       # Main App component
+      ├─ components                   # Components directory
+      │  ├─ Home.js                   # Home component
+      │  ├─ Loading.js                # Loading component
+      │  ├─ chart                     # Chart components directory
+      │  │  └─ ChartButton.js          # ChartButton component
+      │  ├─ navigation                # Navigation components directory
+      │  │  └─ NavigationBar.js        # NavigationBar component
+      │  ├─ predict                   # Prediction components directory
+      │  │  ├─ Prediction.js           # Prediction component
+      │  │  ├─ RealTimePrediction.js   # RealTimePrediction component
+      │  │  └─ SearchHistory.js        # SearchHistory component
+      │  └─ table                     # Table components directory
+      │     ├─ PaginationTable.js      # PaginationTable component
+      │     └─ TableHeader.js          # TableHeader component
+      ├─ config                       # Configuration directory
+      │  └─ chart                      # Chart configuration directory
+      │     ├─ api.js                  # API configuration
+      │     ├─ buttons.js              # Button configuration
+      │     └─ selectOptions.js        # Select options configuration
+      ├─ context                      # Context API directory
+      │  └─ ContextAPI.js              # Context API component
+      ├─ data_retrieval               # Data retrieval directory
+      │  ├─ Data.js                   # Data retrieval component
+      │  └─ columns.js                # Columns component
+      ├─ img                          # Image directory
+      │  ├─ bitcoin.png               # Bitcoin image
+      │  ├─ datasuplier.png           # Data supplier image
+      │  └─ ethereum.png              # Ethereum image
+      ├─ index.css                    # Main CSS file
+      ├─ index.js                     # Main index file
+      └─ styles                       # Styles directory
+         ├─ dashboard.js              # Dashboard styles
+         └─ prediction.js             # Prediction styles
+
