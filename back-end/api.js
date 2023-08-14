@@ -7,10 +7,9 @@ router.post("/store-data", async (req, res) => {
     // Extract the API data from the request body
     const { currency, data } = req.body;
     console.log("Currency: ", currency, "\nData: ", data);
-
     // Store the data in the corresponding table
-    const query = `INSERT INTO ${currency} (date, price, market_cap, total_volume, change_24h, change_7d, label) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-
+    const query = `INSERT INTO ${currency} (date, price, market_cap, total_volume, change_24h, change_7d, label)
+                     VALUES ($1, $2, $3, $4, $5, $6, $7)`;
     // Iterate through the data and execute the insert query for each item
     for (const item of data) {
       const {
@@ -41,7 +40,6 @@ router.post("/store-data", async (req, res) => {
         label,
       ]);
     }
-
     res.status(200).json({ message: "Data stored successfully" });
   } catch (error) {
     console.error("Error: ", error);

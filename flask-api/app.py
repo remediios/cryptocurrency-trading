@@ -46,20 +46,22 @@ def predict():
         'change7d': [data[0]['change7d']]
     }
 
-    df = pd.DataFrame(data2)
+    df = pd.DataFrame(data2)  # Data to be predicted in dataframe format
     print(df)
-
     prediction_scaled = None
-
     if currency == "bitcoin":
+        # Unseen data normalisation
         model_data_normalized = btc_scaler_daily.transform(df)
         print(model_data_normalized)
+        # Model generalisation to obtain prediction
         prediction = btc_model_daily.predict(model_data_normalized)
         prediction_scaled = prediction.item(0)
         print("Price Movement Prediction: ", prediction)
     elif currency == "ethereum":
+        # Unseen data normalisation
         model_data_normalized = eth_scaler_daily.transform(df)
         print(model_data_normalized)
+        # Model generalisation to obtain prediction
         prediction = eth_model_daily.predict(model_data_normalized)
         prediction_scaled = prediction.item(0)
         print("Price Movement Prediction: ", prediction)
@@ -70,7 +72,6 @@ def predict():
         "currency": currency,
         "response": prediction_scaled
     }
-
     return json.dumps(value)
 
 
